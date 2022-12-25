@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 
-export default useObserver = ref => {
+export default function useObserver(
+  ref: React.RefObject<HTMLElement>
+): boolean {
   const [isIntersecting, setIsIntersecting] = useState(false);
 
   // OPTIONS
@@ -9,17 +11,19 @@ export default useObserver = ref => {
     rootMargin: '0px',
     threshold: 0.5, // A threshold of 1.0 means that when 100% of the target is visible within the element specified by the root option, the callback is invoked.
   };
-  // Observer
-  const observer = new IntersectionObserver(
-    ([entry]) => setIsIntersecting(entry.isIntersecting),
-    options
-  );
+
   // Use Effect
   useEffect(() => {
+    // Observer
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsIntersecting(entry.isIntersecting),
+      options
+    );
     observer.observe(ref.current);
     // DISCONNECT
     return () => observer.disconnect();
   }, []);
+
   // Return
   return isIntersecting;
-};
+}

@@ -1,7 +1,11 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 
-export default useUpdateEffect = (callback, dependencies) => {
+export default function useUpdateEffect(
+  callback: () => void,
+  dependencies: any[]
+): void {
   const firstRenderRef = useRef(true);
+  const deps = useMemo(() => dependencies, dependencies);
 
   useEffect(() => {
     if (firstRenderRef.current) {
@@ -9,8 +13,9 @@ export default useUpdateEffect = (callback, dependencies) => {
       return;
     }
     return callback();
-  }, dependencies);
-};
+  }, deps);
+}
+
 // To omit side effects from happening, when component mounts
 // Similar to useEffect, but wont run on component mount
 // Usage -> like useEffect
