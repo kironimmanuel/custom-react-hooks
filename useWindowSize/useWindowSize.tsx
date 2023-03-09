@@ -1,35 +1,34 @@
 import { useEffect, useState } from 'react';
 
-interface IWindowSize {
+interface WindowSize {
   width: number | undefined;
   height: number | undefined;
 }
 
-export const useWindowSize = (): IWindowSize => {
-  const [windowSize, setWindowSize] = useState<IWindowSize>({
-    width: undefined,
-    height: undefined,
+function useWindowSize(): WindowSize {
+  const [windowSize, setWindowSize] = useState<WindowSize>({
+    width: typeof window !== 'undefined' ? window.innerWidth : undefined,
+    height: typeof window !== 'undefined' ? window.innerHeight : undefined,
   });
 
   useEffect(() => {
-    const handleResize = () => {
+    function handleResize(): void {
       setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
+        width: typeof window !== 'undefined' ? window.innerWidth : undefined,
+        height: typeof window !== 'undefined' ? window.innerHeight : undefined,
       });
+    }
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', handleResize);
+    }
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', handleResize);
+      }
     };
-    window.addEventListener('resize', handleResize);
-    handleResize();
-    return () => window.removeEventListener('resize', handleResize);
   }, []);
-  return windowSize;
-};
 
-// Usage:
-// const Example = () => {
-//   const { width, height } = useWindowSize();
-//   return (
-//     <div>
-//       {width} x {height}
-//     </div>
-//   );
+  return windowSize;
+}
+
+export default useWindowSize;
