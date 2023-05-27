@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react';
 
-type HookProps = {
-  slides: any[];
-};
-
-export const useSlidesInView = ({ slides }: HookProps) => {
+export const useSlidesInView = ({ slides }: { slides: any[] }) => {
   const [slidesInView, setSlidesInView] = useState<number>(4);
   const [windowSize, setWindowSize] = useState<number>(0);
   const [isLoop, setIsLoop] = useState(false);

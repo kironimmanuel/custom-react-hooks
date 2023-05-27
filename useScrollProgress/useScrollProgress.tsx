@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-const useScrollProgress = () => {
+export const useScrollProgress = () => {
   const [scrollTop, setScrollTop] = useState<number>(0);
 
   const onScroll = useCallback(() => {
@@ -19,5 +19,3 @@ const useScrollProgress = () => {
 
   return scrollTop;
 };
-
-export default useScrollProgress;

@@ -1,11 +1,10 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 export default function useUpdateEffect(
   callback: () => void,
   dependencies: any[]
 ): void {
   const firstRenderRef = useRef(true);
-  const deps = useMemo(() => dependencies, dependencies);
 
   useEffect(() => {
     if (firstRenderRef.current) {
@@ -13,7 +12,7 @@ export default function useUpdateEffect(
       return;
     }
     return callback();
-  }, deps);
+  }, dependencies);
 }
 
 // To omit side effects from happening, when component mounts

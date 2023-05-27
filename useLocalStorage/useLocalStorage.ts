@@ -6,14 +6,14 @@ const getLocalStorageValue = <T>(
   key: string,
   initialValue: InitialValueType<T>
 ): T => {
-  const storedValue = JSON.parse(localStorage.getItem(key)) as T;
+  const storedValue = JSON.parse(localStorage.getItem(key)!) as T;
   if (storedValue !== null) return storedValue;
   if (initialValue instanceof Function) return initialValue();
 
   return initialValue;
 };
 
-export default function useLocalStorage<T>(
+export function useLocalStorage<T>(
   key: string,
   initialValue: InitialValueType<T>
 ): [T, (value: T) => void] {

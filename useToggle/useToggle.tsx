@@ -12,5 +12,3 @@ export default function useToggle(
   };
   return [value, toggleValue];
 }
-
-// Usage -> const [state, setState] = useToggle(boolean);

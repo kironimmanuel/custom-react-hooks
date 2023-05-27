@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import { ISanityImage } from '../typings';
 
 type UseSliderReturnType = {
   slideIndex: number;
@@ -17,28 +16,28 @@ const getNextIndex = (
   return (currentIndex + increment + length) % length;
 };
 
-export const useSlider = (
-  slides: ISanityImage[],
+export function useSlider<T>(
+  slides: T[],
   autoplay: boolean = false,
   speed: number = autoplay ? 5 : 0
-): UseSliderReturnType => {
+): UseSliderReturnType {
   const [slideIndex, setSlideIndex] = useState(0);
 
   useEffect(() => {
     if (autoplay) {
       const interval = setInterval(() => {
-        setSlideIndex((prev) => getNextIndex(prev, slides.length, 'next'));
+        setSlideIndex(prev => getNextIndex(prev, slides.length, 'next'));
       }, speed * 1000);
       return () => clearInterval(interval);
     }
   }, [autoplay, speed, slides.length]);
 
   const goToNextSlide = useCallback(() => {
-    setSlideIndex((prev) => getNextIndex(prev, slides.length, 'next'));
+    setSlideIndex(prev => getNextIndex(prev, slides.length, 'next'));
   }, [slides.length]);
 
   const goToPrevSlide = useCallback(() => {
-    setSlideIndex((prev) => getNextIndex(prev, slides.length, 'prev'));
+    setSlideIndex(prev => getNextIndex(prev, slides.length, 'prev'));
   }, [slides.length]);
 
   const goToSlide = useCallback((index: number) => {
@@ -46,4 +45,4 @@ export const useSlider = (
   }, []);
 
   return { slideIndex, goToNextSlide, goToPrevSlide, goToSlide };
-};
+}
