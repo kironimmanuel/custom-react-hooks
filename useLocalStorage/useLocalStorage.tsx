@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 type InitialValueType<T> = T | (() => T);
 
-const getLocalStorageValue = <T>(
+const getLocalStorageValue = <T,>(
   key: string,
   initialValue: InitialValueType<T>
 ): T => {
@@ -13,10 +13,10 @@ const getLocalStorageValue = <T>(
   return initialValue;
 };
 
-export function useLocalStorage<T>(
+export const useLocalStorage = <T,>(
   key: string,
   initialValue: InitialValueType<T>
-): [T, (value: T) => void] {
+): [T, (value: T) => void] => {
   // Use function here, so it only runs once the components loads and needs the initialValue
   const [localStorageValue, setLocalStorageValue] = useState(() =>
     getLocalStorageValue(key, initialValue)
@@ -26,6 +26,6 @@ export function useLocalStorage<T>(
   }, [localStorageValue]);
 
   return [localStorageValue, setLocalStorageValue];
-}
+};
 
 // Usage similar to useState -> const [localStorageValue, setLocalStorageValue] = useLocalStorage<string>("data", "");

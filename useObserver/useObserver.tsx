@@ -16,7 +16,7 @@ export default function useObserver(
       ([entry]) => setIsIntersecting(entry.isIntersecting),
       options
     );
-    observer.observe(ref.current);
+    observer.observe(ref.current!);
     return () => observer.disconnect();
   }, []);
 
